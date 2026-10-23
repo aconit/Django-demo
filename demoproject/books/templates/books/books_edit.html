@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% load widget_tweaks %} 
+
+
+{% block title %} Boek {% endblock %}
+
+{% block content  %} 
+
+<div class="row">
+    <div class="col-12 col-md-6">
+       <h4>Boek<h4>
+    </div>
+    <div class="col-12 col-md-6 d-flex justify-content-center justify-content-lg-end">
+        <a href="{% url "books"  %}" class="btn btn-secondary float-end m-1"><i class="material-icons">book</i> Terug naar de lijst met boeken</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <hr/>
+    </div>
+</div>
+
+<form  method="post" novalidate>
+    {% csrf_token %}
+
+     {% for field in form %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">
+                {{ field.label }}
+            </label>
+            
+            {% if field.errors %}
+                {% render_field field class="form-control is-invalid" %}
+            {% else %}
+                {% render_field field class="form-control" %}
+            {% endif %}
+
+            {% if field.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in field.errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+     <div class="col-12 d-flex justify-content-end">
+        <button class="btn btn-primary" type="submit">
+            <div class="material-icons">save</div> Opslaan
+        </button>
+    </div>
+</form>
+{% endblock  %}

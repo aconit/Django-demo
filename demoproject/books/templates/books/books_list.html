@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %} Boeken {% endblock %}
+
+
+{% block content  %} 
+<div class="row">
+    <div class="col-12 col-md-6">
+       <h4>Totaal aantal boeken: {{ books.count }}</h4>
+    </div>
+    {% if user.isEmployee %}
+    <div class="col-12 col-md-6 d-flex justify-content-center justify-content-lg-end">
+        <a href="{% url "book_edit" 0 %}" class="btn btn-primary float-end m-1"><div class="material-icons">add</div> Boek toevoegen</a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <hr/>
+    </div>
+</div>
+    {% for book in books %}
+        <li class="list-group-item  {% cycle '' 'bg-light' %}">               
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-12 col-md-5">
+                                {{ book.title }}
+                            </div>
+                             <div class="col-12 col-md-5">
+                                {{ book.author }}
+                            </div>
+                            <div class="col-12 col-md-2">
+                                {{ book.first_pub_year }}
+                            </div>
+                        </div>
+                    </div>
+                     {% if user.isEmployee %}
+                    <div class="col-12 col-xl-3 d-flex justify-content-around align-items-center">
+                        <a class="btn btn-primary m-1" href="{% url "book_edit"  book.id %}"><i class="material-icons">create</i></a>
+                        <a class="btn btn-danger m-1" href="{% url "book_delete" book.id %}"><i class="material-icons">delete</i></a>   
+                    </div>
+                    {% endif %}
+                </div>
+        </li>
+    {% empty %}
+       <h5>Geen records</h5>
+    {% endfor %}
+{% endblock  %}

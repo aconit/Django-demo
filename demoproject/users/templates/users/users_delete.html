@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% load widget_tweaks %} 
+
+
+{% block title %} Gebruiker verwijderen {% endblock %}
+
+{% block content  %} 
+<div class="row">
+    <div class="col-12 col-md-6">
+       <h4>Gebruiker<h4>
+    </div>
+    <div class="col-12 col-md-6 d-flex justify-content-center justify-content-lg-end">
+        <a href="{% url "users"  %}" class="btn btn-secondary float-end m-1"><i class="material-icons">person</i> Terug naar de lijst met gebruikers</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <hr/>
+    </div>
+</div>
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="alert alert-danger" role="alert">
+      <p>Weet u zeker dat u de volgende gebruiker wilt verwijderen?</p>
+    </div>
+ {% for field in form %}
+        <div class="mb-3">
+            {% if field.name != 'password' %}
+            <label for="{{ field.id_for_label }}" class="form-label">
+                {{ field.label }}
+            </label>
+            
+            {% render_field field class="form-control" disabled="disabled" %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div class="col-12 d-flex justify-content-end">
+      <button type="submit" class="btn btn-danger">
+         <div class="material-icons">delete</div> Verwijderen
+      </button>
+    </div>
+</form>
+
+{% endblock  %}
